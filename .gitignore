@@ -1,0 +1,5 @@
+compose.override.yml
+.env
+*.log
+volume
+terraform

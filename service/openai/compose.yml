@@ -1,0 +1,38 @@
+version: "3"
+services:
+  openai:
+    build: ./openai/cmd
+    ports:
+      - "8082:8082"
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: db
+      DB_USER: user
+      DB_PASSWORD: password
+      SENDGRID_API_KEY: your_sendgrid_api_key
+    volumes:
+      - ./openai/cmd/data:/app
+    depends_on:
+      - postgres
+    networks:
+      - app_network
+
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_DB: db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    volumes:
+      - ./cmd/data:/var/lib/postgresql/data/
+    ports:
+      - "5432:5432"
+    networks:
+      - app_network
+
+networks:
+  app_network:
+
+volumes:
+  data:
